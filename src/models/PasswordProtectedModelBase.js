@@ -33,8 +33,13 @@
       }
     },
     composedUrl: function(bare, enableCaching, queryAppends) {
+      var ourQuery = "auth_required_format=json";
+      // Server seems to depend on auth_required... query param being first:
+      queryAppends = (queryAppends ?
+                      ourQuery + "&" + queryAppends :
+                      ourQuery);
       return Backbone.Model.prototype.composedUrl.call(
-        this, bare, enableCaching, (bare ? null : "auth_required_format=json")
+        this, bare, enableCaching, (bare ? null : queryAppends)
       );
     },
     /** Transiently include tailored authentication if we have a password */
