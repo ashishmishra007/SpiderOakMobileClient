@@ -18,17 +18,17 @@ describe('PasswordProtectedModelBase', function() {
     });
     it('composedUrl should combine url and urlBase' +
        ', with auth_required_format...', function() {
-         this.model.composedUrl().should.be.a("string");
-         this.model.composedUrl().should.equal(
+         this.model.composedUrl(null, true).should.be.a("string");
+         this.model.composedUrl(null, true).should.equal(
            "base/filename.pdf?auth_required_format=json"
          );
        });
     it('composedUrl auth_required_format should be inhibited properly',
        function() {
-         this.model.composedUrl().should.be.a("string");
-         this.model.composedUrl(true).should.equal("base/filename.pdf");
+         this.model.composedUrl(true, true).should.equal("base/filename.pdf");
        });
-    it('composedUrl auth_required_format should have just one "?", one "&"',
+    it('composedUrl auth_required_format should have just one "?" and' +
+       ' at least one "&"',
        function() {
          this.model.set("url", "filename.pdf?arbitrary=stuff");
          this.model.composedUrl().should.be.a("string");
@@ -38,7 +38,6 @@ describe('PasswordProtectedModelBase', function() {
          this.model.composedUrl().should.match(/\?/);
          this.model.composedUrl().should.match(/&/);
          this.model.composedUrl().should.not.match(/\?.*\?/);
-         this.model.composedUrl().should.not.match(/&.*&/);
        });
   });
 });
